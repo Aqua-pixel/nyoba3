@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('Perpustakaans', function (Blueprint $table) {
             $table->id();
-            $table->string('judul')->index();;
+            $table->string('judul');
             $table->string('penulis');
-            $table->longblob('gambar');
+            $table->string('gambar')->nullable();
             $table->decimal('price', 15, 2)->nullable();
             $table->integer('jumlah')->default(0);
             $table->timestamps();

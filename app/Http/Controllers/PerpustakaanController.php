@@ -53,7 +53,7 @@ class PerpustakaanController extends Controller
     {
         $perpustakaan = Perpustakaan::findOrFail($id);
 
-        return response(view('Perpustakaans.edit', ['Perpustakaan' => $perpustakaan]));
+        return response(view('Perpustakaans.edit', ['perpustakaan' => $perpustakaan]));
     }
     /**
      * Update the specified resource in storage.

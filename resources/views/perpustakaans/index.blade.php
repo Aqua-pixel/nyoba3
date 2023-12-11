@@ -48,7 +48,7 @@
                             <td>{{ $perpustakaan->price }}</td>
                             <td>{{ $perpustakaan->jumlah }}</td>
                             <td>
-                            <a href="{{ route('products.edit', ['id' => $perpustakaan->id]) }}" class="btn btn-secondary btn-sm">edit</a>
+                            <a href="{{ route('Perpustakaans.edit', ['id' => $perpustakaan->id]) }}" class="btn btn-secondary btn-sm">edit</a>
                             <a href="#" class="btn btn-sm btn-danger" onclick="
                                 event.preventDefault();
                                 if (confirm('Do you want to remove this?')) {

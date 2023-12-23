@@ -14,3 +14,6 @@ Route::delete('Perpustakaans/{id}', [PerpustakaanController::class, 'destroy'])-
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+

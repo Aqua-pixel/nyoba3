@@ -24,7 +24,7 @@ class StorePerpustakaanRequest extends FormRequest
         return [
             'judul' => ['required', 'max:100'],
             'penulis' => ['required', 'max:100'],
-            // 'gambar' => ['required'],
+            'gambar' => ['required'],
             'price' => ['required', 'numeric', 'min:1'],
             'jumlah' => ['required', 'numeric', 'min:0'],
         ];

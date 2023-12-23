@@ -11,7 +11,8 @@
         <div class="main-wrapper">
             <div class="main-content">
             <div class="container">
-                <form method="post" action="{{ route('Perpustakaans.store') }}">
+                <form method="post" action="{{ route('Perpustakaans.store') }}" method="POST" enctype="multipart/form-data">
+                <!-- <form action="{{ route('Perpustakaans.store') }}" method="POST" enctype="multipart/form-data"> -->
                 @csrf
                 <div class="card mt-5">
                     <div class="card-header">
@@ -47,7 +48,14 @@
                         </div>
                         <div class="mb-3">
                         <label class="form-label">gambar</label>
-                        <input type="image" class="form-control" name="gambar" value="{{ old('gambar') }}"  placeholder="gambar">
+                            <input type="file" class="form-control @error('gambar') is-invalid @enderror" name="gambar">
+                            
+                            <!-- error message untuk title -->
+                            @error('gambar')
+                                <div class="alert alert-danger mt-2">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                         <label class="form-label">Price</label>

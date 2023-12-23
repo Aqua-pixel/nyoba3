@@ -58,6 +58,7 @@
                             </a>
                             <form id="delete-row-{{ $perpustakaan->id }}" action="{{ route('perpustakaans.destroy', ['id' => $perpustakaan->id]) }}" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">
+                                <form action="{{ route('Perpustakaans.index') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                             </form>
                             </td>

@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StorePerpustakaanRequest;
 use App\Http\Requests\UpdatePerpustakaanRequest;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class PerpustakaanController extends Controller
 {
@@ -35,10 +36,45 @@ class PerpustakaanController extends Controller
      */
 	public function store(StorePerpustakaanRequest $request)
     {
+
         if (Perpustakaan::create($request->validated())) {
             return redirect(route('Perpustakaans.index'))->with('success', 'Added!');
         }
+
+        $this->validate($request, [
+            'gambar'     => 'required|image|mimes:png,jpg,jpeg',
+        ]);
+        
+        //upload image
+        $gambar = $request->file('gambar');
+        $gambar->storeAs('public/Bukus', $gambar->hashName());
+    
+        $perpustakaan = Perpustakaan::create([
+            'gambar'     => $gambar->hashName(),
+        ]);
+    
+        if($perpustakaan){
+            //redirect dengan pesan sukses
+            return redirect()->route('Perpustakaans.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        }else{
+            //redirect dengan pesan error
+            return redirect()->route('Perpustakaans.index')->with(['error' => 'Data Gagal Disimpan!']);
+        }
     }
+
+    // public function store(Request $request) {
+    //     $validator = Perpustakaan::make($request->all(),[
+    //         'gambar' => 'requires|image|mimes:png,jpg,jpeg',
+    //     ]);
+
+    //     if($validator->fails()) return redirect()->back()->withInput()->withErrors($validator);
+
+    //     $gambar = $request-> file('gambar');
+    //     $filename = date('Y-m-d').$gambar->getClientOriginalName();
+    //     $path = 'public/'.$filename;
+
+    //     Storage::disk('public')->put($path,file_get_contents($gambar));
+    // }
     /**
      * Display the specified resource.
      */
@@ -54,6 +90,7 @@ class PerpustakaanController extends Controller
         $perpustakaan = Perpustakaan::findOrFail($id);
 
         return response(view('Perpustakaans.edit', ['perpustakaan' => $perpustakaan]));
+
     }
     /**
      * Update the specified resource in storage.
@@ -64,6 +101,25 @@ class PerpustakaanController extends Controller
 
         if ($perpustakaan->update($request->validated())) {
             return redirect(route('Perpustakaans.index'))->with('success', 'Updated!'); 
+        }
+        $this->validate($request, [
+            'gambar'     => 'required|image|mimes:png,jpg,jpeg',
+        ]);
+        
+        //upload image
+        $gambar = $request->file('gambar');
+        $gambar->storeAs('public/Bukus', $gambar->hashName());
+    
+        $perpustakaan = Perpustakaan::create([
+            'gambar'     => $gambar->hashName(),
+        ]);
+    
+        if($perpustakaan){
+            //redirect dengan pesan sukses
+            return redirect()->route('Perpustakaans.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        }else{
+            //redirect dengan pesan error
+            return redirect()->route('Perpustakaans.index')->with(['error' => 'Data Gagal Disimpan!']);
         }
     }
 

@@ -11,7 +11,7 @@
         <div class="main-wrapper">
             <div class="main-content">
             <div class="container">
-                <form method="post" action="{{ route('Perpustakaans.update', $perpustakaan->id) }}">
+                <form method="post" action="{{ route('Perpustakaans.update', $perpustakaan->id) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="card mt-5">
@@ -47,8 +47,15 @@
                         <input type="text" class="form-control" penulis="penulis" value="{{ old('penulis', $perpustakaan->penulis) }}"  placeholder="penulis">
                         </div>
                         <div class="mb-3">
-                        <label class="form-label> gambar </label>
-                        <input type="text" class="form-control" penulis="gambar" value="{{ old('gambar', $perpustakaan->gambar) }}"  placeholder="gambar">
+                        <label class="form-label">gambar</label>
+                            <input type="file" class="form-control @error('gambar') is-invalid @enderror" name="gambar">
+                            
+                            <!-- error message untuk title -->
+                            @error('gambar')
+                                <div class="alert alert-danger mt-2">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                         <label class="form-label">Price</label>

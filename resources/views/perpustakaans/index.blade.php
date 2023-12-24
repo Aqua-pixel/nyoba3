@@ -26,6 +26,12 @@
                     <p>
                     <a class="btn btn-primary" href="{{ route('Perpustakaans.create') }}">NEW Record</a>
                     </p>
+                    <form action="{{ route('Perpustakaans.index') }}" method="GET">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Cari judul..." name="search" value="{{ request('search') }}">
+                                <button class="btn btn-outline-secondary" type="submit">Cari</button>
+                            </div>
+                        </form>
                     <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -34,7 +40,7 @@
                         <th>judul</th>
                         <th>penulis</th>
                         <th>gambar</th>
-                        <th>Price</th>
+                        <th>ISBN</th>
                         <th>jumlah</th>
                         <th>Actions</th>
                         </tr>

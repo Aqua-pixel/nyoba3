@@ -16,11 +16,14 @@ class PerpustakaanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(Request $request)
     {
-        $perpustakaans = Perpustakaan::all();
-
-        return response(view('Perpustakaans.index', ['Perpustakaans' => $perpustakaans]));
+        $search = $request->input('search');
+        $Perpustakaans = Perpustakaan::when($search, function ($query, $search) {
+            return $query->where('judul', 'like', '%' . $search . '%');
+        })->get();
+    
+        return view('perpustakaans.index', compact('Perpustakaans'));
     }
 
     /**

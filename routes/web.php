@@ -10,6 +10,7 @@ Route::post('Perpustakaans', [PerpustakaanController::class, 'store'])->name('Pe
 Route::get('Perpustakaans/{id}/edit', [PerpustakaanController::class, 'edit'])->name('Perpustakaans.edit');
 Route::put('Perpustakaans/{id}', [PerpustakaanController::class, 'update'])->name('Perpustakaans.update');
 Route::delete('Perpustakaans/{id}', [PerpustakaanController::class, 'destroy'])->name('perpustakaans.destroy');
+Route::get('Perpustakaans/{id}', [PerpustakaanController::class, 'show'])->name('Perpustakaans.show');
 
 Route::get('/', function () {
     return view('welcome');

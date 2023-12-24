@@ -9,8 +9,8 @@
     <body>
         <div id="app">
         <div class="main-wrapper">
-            <div class="main-content">
-            <div class="container">
+            <div class="container-fluid">
+            <div class="container-fluid">
                 <div class="card mt-5">
                 <div class="card-header">
                     <h3>PERPUS</h3>
@@ -29,6 +29,7 @@
                     <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
+                        <th>No</th>
                         <th>ID</th>
                         <th>judul</th>
                         <th>penulis</th>
@@ -39,12 +40,16 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                            $counter = 1;
+                        @endphp
                         @forelse ($Perpustakaans as $perpustakaan)
                         <tr>
+                            <td>{{ $counter++ }}</td>
                             <td>{{ $perpustakaan->id }}</td>
                             <td>{{ $perpustakaan->judul }}</td>
                             <td>{{ $perpustakaan->penulis }}</td>
-                            <td>{{ $perpustakaan->gambar }}</td>
+                            <td><img src="{{ asset('storage/storage/'.$perpustakaan->gambar)}}" alt="{{ $perpustakaan->judul }}" style="max-width: 100px;"></td>
                             <td>{{ $perpustakaan->price }}</td>
                             <td>{{ $perpustakaan->jumlah }}</td>
                             <td>
@@ -56,16 +61,18 @@
                                 }">
                                 delete
                             </a>
+                            <a href="{{ route('Perpustakaans.show', ['id' => $perpustakaan->id]) }}" class="btn btn-info btn-sm">Show</a>
                             <form id="delete-row-{{ $perpustakaan->id }}" action="{{ route('perpustakaans.destroy', ['id' => $perpustakaan->id]) }}" method="POST">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <form action="{{ route('Perpustakaans.index') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                             </form>
+                            
                             </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="7">
+                            <td colspan="8">
                                 No record found!
                             </td>
                         </tr>

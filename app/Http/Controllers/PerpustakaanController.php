@@ -37,20 +37,30 @@ class PerpustakaanController extends Controller
 	public function store(StorePerpustakaanRequest $request)
     {
 
-        if (Perpustakaan::create($request->validated())) {
-            return redirect(route('Perpustakaans.index'))->with('success', 'Added!');
-        }
-
         $this->validate($request, [
-            'gambar'     => 'required|image|mimes:png,jpg,jpeg',
+            'judul'   => 'required|string',
+            'penulis' => 'required|string',
+            'gambar'  => 'required|image|mimes:png,jpg,jpeg',
+            'price'   => 'required|numeric',
+            'jumlah'  => 'required|numeric',
         ]);
         
-        //upload image
+        // Upload image
         $gambar = $request->file('gambar');
-        $gambar->storeAs('public/Bukus', $gambar->hashName());
+        $filename = date('d-m-y').$gambar->getClientOriginalName();
+        $path = 'storage/'.$filename;
+
+        storage::disk('public')->put($path,file_get_contents($gambar));
+
+        // $gambar->storeAs('public/Bukus', $gambar->hashName());
     
         $perpustakaan = Perpustakaan::create([
-            'gambar'     => $gambar->hashName(),
+            'judul'   => $request->judul,
+            'penulis' => $request->penulis,
+            // 'gambar'  => $gambar->hashName(),
+            'gambar'  => $filename,
+            'price'   => $request->price,
+            'jumlah'  => $request->jumlah,
         ]);
     
         if($perpustakaan){
@@ -97,21 +107,30 @@ class PerpustakaanController extends Controller
      */
     public function update(UpdatePerpustakaanRequest $request, string $id)
     {
-        $perpustakaan = Perpustakaan::findOrFail($id);
-
-        if ($perpustakaan->update($request->validated())) {
-            return redirect(route('Perpustakaans.index'))->with('success', 'Updated!'); 
-        }
         $this->validate($request, [
-            'gambar'     => 'required|image|mimes:png,jpg,jpeg',
+            'judul'   => 'required|string',
+            'penulis' => 'required|string',
+            'gambar'  => 'required|image|mimes:png,jpg,jpeg',
+            'price'   => 'required|numeric',
+            'jumlah'  => 'required|numeric',
         ]);
         
-        //upload image
+        // Upload image
         $gambar = $request->file('gambar');
-        $gambar->storeAs('public/Bukus', $gambar->hashName());
+        $filename = date('d-m-y').$gambar->getClientOriginalName();
+        $path = 'storage/'.$filename;
+
+        storage::disk('public')->put($path,file_get_contents($gambar));
+
+        // $gambar->storeAs('public/Bukus', $gambar->hashName());
     
         $perpustakaan = Perpustakaan::create([
-            'gambar'     => $gambar->hashName(),
+            'judul'   => $request->judul,
+            'penulis' => $request->penulis,
+            // 'gambar'  => $gambar->hashName(),
+            'gambar'  => $filename,
+            'price'   => $request->price,
+            'jumlah'  => $request->jumlah,
         ]);
     
         if($perpustakaan){
@@ -128,7 +147,12 @@ class PerpustakaanController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
-        $perpustakaan = Perpustakaan::findOrFail($id);
+        $perpustakaan = Perpustakaan::findOrFail($id);       
+        
+        Perpustakaan::deleting(function ($perpustakaan) {
+            // Menghapus file gambar yang terkait dari penyimpanan (storage)
+            Storage::disk('public')->delete('storage/' . $perpustakaan->gambar);
+        });
 
         if ($perpustakaan->delete()) {
             return redirect(route('Perpustakaans.index'))->with('success', 'Deleted!');
@@ -136,4 +160,5 @@ class PerpustakaanController extends Controller
 
         return redirect(route('Perpustakaans.index'))->with('error', 'Sorry, unable to delete this!');
     }
+
 }

@@ -59,21 +59,20 @@
                             <td>{{ $perpustakaan->price }}</td>
                             <td>{{ $perpustakaan->jumlah }}</td>
                             <td>
-                            <a href="{{ route('Perpustakaans.edit', ['id' => $perpustakaan->id]) }}" class="btn btn-secondary btn-sm">edit</a>
-                            <a href="#" class="btn btn-sm btn-danger" onclick="
-                                event.preventDefault();
-                                if (confirm('Do you want to remove this?')) {
-                                document.getElementById('delete-row-{{ $perpustakaan->id }}').submit();
-                                }">
-                                delete
-                            </a>
-                            <a href="{{ route('Perpustakaans.show', ['id' => $perpustakaan->id]) }}" class="btn btn-info btn-sm">Show</a>
-                            <form id="delete-row-{{ $perpustakaan->id }}" action="{{ route('perpustakaans.destroy', ['id' => $perpustakaan->id]) }}" method="POST">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <form action="{{ route('Perpustakaans.index') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                            </form>
-                            
+                                <a href="{{ route('Perpustakaans.edit', ['id' => $perpustakaan->id]) }}" class="btn btn-secondary btn-sm">edit</a>
+                                <a href="#" class="btn btn-sm btn-danger" onclick="
+                                    event.preventDefault();
+                                    if (confirm('Do you want to remove this?')) {
+                                    document.getElementById('delete-row-{{ $perpustakaan->id }}').submit();
+                                    }">
+                                    delete
+                                </a>
+                                <a href="{{ route('Perpustakaans.show', ['id' => $perpustakaan->id]) }}" class="btn btn-info btn-sm">Show</a>
+                                <form id="delete-row-{{ $perpustakaan->id }}" action="{{ route('perpustakaans.destroy', ['id' => $perpustakaan->id]) }}" method="POST">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <form action="{{ route('Perpustakaans.index') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                </form>
                             </td>
                         </tr>
                         @empty
